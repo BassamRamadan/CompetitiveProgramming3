@@ -26,6 +26,7 @@ using namespace std;
 #define clr(v,d)        memset(v, d, sizeof(v))
 const double EPS = 1e-12;
 typedef long long ll;
+#define endl '\n'
 const double PI = 3.14159265359;
 int a[100];
 int con(int n){
