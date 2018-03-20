@@ -30,39 +30,40 @@ typedef long long ll;
 const double PI = 3.14159265359;
 
 
-int arr[100000];
+int arr[100000], x[100000];
 int Merg_sort(int arr[], int start, int mid, int end){
-	int l = start, e = start, ans = 0;
-	vector<int>left, right;
-	while (l <= mid)
-		left.push_back(arr[l++]);
-	while (l <= end)
-		right.push_back(arr[l++]);
-	for (int i = 0, j = 0; i < left.size() || j < right.size();)
+
+	ll l = start, r = mid + 1, e = 0, ans = 0;
+	for (int i = start; i <= end; i++)
 	{
-		
-		if (i >= left.size())
-			arr[e++] = right[j++];
-		else if (j >= right.size())
-			arr[e++] = left[i++];
-		else if (left[i] <= right[j])
-			arr[e++] = left[i++];
+
+		if (l > mid)              // size first arr < size second arr
+			x[e++] = arr[r++];
+		else if (r > end)         // size first arr > size second arr
+			x[e++] = arr[l++];
+		else if (arr[l] < arr[r])  // compare
+			x[e++] = arr[l++];
 		else
 		{
-			ans += left.size() - i;
-			arr[e++] = right[j++];
-		
+			ans += (mid + 1) - (l);  // insert number index r-mid in index l move from r to l
+			x[e++] = arr[r++];
 		}
+
+
 	}
+
+	for (int i = 0; i < e; i++)
+		arr[start++] = x[i];
+
 	return ans;
 }
 
-int Merg_split(int arr[], int start, int end){
-	int	ans = 0;
+ll Merg_split(int arr[], int start, int end){
+	ll	ans = 0;
 	if (start < end){
 		int mid = (start + end) / 2;
-		ans +=Merg_split(arr, start, mid);
-		ans +=Merg_split(arr, mid + 1, end);
+		ans = Merg_split(arr, start, mid);
+		ans += Merg_split(arr, mid + 1, end);
 		ans += Merg_sort(arr, start, mid, end);
 	}
 	return ans;
@@ -72,6 +73,7 @@ int Merg_split(int arr[], int start, int end){
 int main(){
 
 	Compiler_Beso
+
 
 		int t;
 	cin >> t;
@@ -84,8 +86,9 @@ int main(){
 		for (int i = 0; i < n; i++)
 			cin >> arr[i];
 
-		cout << "Optimal train swapping takes " << Merg_split(arr, 0, n - 1) << "\n";
+		cout << "Optimal train swapping takes " << Merg_split(arr, 0, n - 1) << " swaps.\n";
 
 	}
-		return 0;
+
+	return 0;
 }
