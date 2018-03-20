@@ -45,14 +45,14 @@ ll ok(ll x){
 pair<ll, ll>ans[1];
 
 void bina(){
-	ll l = 0, r = n , mid = 0; 
+	ll l = 0, r = n, mid = 0;
 
-	while (l<=r)
+	while (l <= r)
 	{
 		mid = (r + l) / 2;
 		ll sum = ok(mid);
 		//cout << mid << " " << sum << endl;
-		if (sum <= k )
+		if (sum <= k)
 		{
 			l = mid + 1;
 			if (mid > ans->first)
@@ -61,12 +61,12 @@ void bina(){
 				ans->second = sum;
 			}
 			else if (mid == ans->first)
-				ans->second = min(sum, ans->second );
+				ans->second = min(sum, ans->second);
 		}
 		else
 			r = mid - 1;
 	}
-	
+
 }
 
 
@@ -75,13 +75,13 @@ int main(){
 
 	Compiler_Beso
 
-	
-	cin >> n >> k;
+
+		cin >> n >> k;
 	for (int i = 0; i < n; i++)
 		cin >> a[i];
 	bina();
 
 	cout << ans->first << " " << ans->second;
-		
+
 	return 0;
 }
