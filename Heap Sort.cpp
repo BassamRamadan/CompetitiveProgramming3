@@ -31,6 +31,7 @@ const double EPS = 1e-12;
 typedef long long ll;
 const double PI = 3.14159265359;
 void HeapIfy(int n, int arr[], int par){
+
 	int l = par * 2 + 1;
 	int r = par * 2 + 2;
 	int larg = par;
@@ -48,15 +49,24 @@ void HeapSort(int n, int arr[]){
 	for (int i = n / 2 - 1; i >= 0; i--){
 		HeapIfy(n, arr, i);
 	}
-	
+
+
+
+	for (int i = 0; i < n; i++)
+	{
+		cout << arr[0] << " ";
+		arr[0] = 1e9;
+		HeapIfy(n, arr, 0);
+	}
+
 }
 int main(){
 
 	Compiler_Beso
-		
-	int arr[8] = { 1, -2, 0, 23, -2, -2, 10 ,-1};
+
+		int arr[8] = { 1, -2, 0, 23, -2, -2, 10, -1 };
 	HeapSort(8, arr);
 
-	for (int i = 0; i < 8; i++)cout << arr[i] << " ";
+
 	return 0;
 }
