@@ -55,8 +55,10 @@ void HeapSort(int n, int arr[]){
 	for (int i = 0; i < n; i++)
 	{
 		cout << arr[0] << " ";
+		int t = arr[0];
 		arr[0] = 1e9;
 		HeapIfy(n, arr, 0);
+		arr[0] = t;
 	}
 
 }
