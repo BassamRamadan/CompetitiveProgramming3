@@ -30,40 +30,52 @@ const double PI = 3.14159265359;
 enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
 int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
 int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
-ll x[100], acm[6], cnt[5];
-int n;
-map<int, int>mp;
-int solve(int nn){
 
-	for (int j = 4; j >= 0; j--)
-	{
-
-		cnt[j] += nn / acm[j];
-		nn %= acm[j];
-
-	}
-	return nn;
-}
 int main(){
 
 	Compiler_Beso
 
-
-		cin >> n;
-	for (int i = 0; i < n; i++)
-		cin >> x[i];
-	for (int i = 0; i < 5; i++)
-		cin >> acm[i];
-	ll s = 0;
-	for (int i = 0; i < n; i++)
+		int t;
+	cin >> t;
+	while (t--)
 	{
-		s += x[i];
-		s = solve(s);
+		int n, m;
+		cin >> n >> m;
+		vector<vector<int>>v(n, vector<int>(m));
+		vector<int>vv[100000];
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+			{
+				cin >> v[i][j];
+				if (v[i][j])
+					vv[j + 1].push_back(i + 1);
+			}
+		}
+
+
+		for (int i = 0; i < m; i++)
+		for (int j = 1; j < n; j++)
+			v[j][i] += v[j - 1][i];
+		bool ok = 1;
+		for (int i = 0; i < m; i++)
+		if (v[n - 1][i] != 2)
+			ok = 0;
+		if (ok)
+		{
+			map<pair<int, int>, int>mp;
+			for (int i = 1; ok && i <= m; i++)
+			{
+				if (mp[{vv[i][0], vv[i][1]}])
+					ok = 0;
+				mp[{vv[i][0], vv[i][1]}] = 1;
+			}
+		}
+
+		cout << (ok ? "Yes" : "No") << endl;
 	}
-	s = solve(s);
-	for (int i = 0; i < 5; i++)
-		cout << cnt[i] << " ";
-	cout << "\n" << s;
+
+
 
 
 	return 0;

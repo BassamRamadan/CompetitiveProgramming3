@@ -31,46 +31,40 @@ enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_
 int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
 int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
 ll x[100], acm[6], cnt[5];
-int solve(int x){
-	bool f = 0;
-	for (int j = 0; j < 6; j++)
+int n;
+map<int, int>mp;
+int solve(int nn){
+
+	for (int j = 4; j >= 0; j--)
 	{
-		if (x&&x <= acm[j])
-		{
-			f = 1;
-			int id = j&&acm[j] != x ? j - 1 : j;
-			cnt[id] += x / acm[id];
-			x %= acm[id];
-		}
+
+		cnt[j] += nn / acm[j];
+		nn %= acm[j];
+
 	}
-	return x;
+	return nn;
 }
 int main(){
 
 	Compiler_Beso
 
-		int n;
-	cin >> n;
-	acm[5] = 1e9+2;
+
+		cin >> n;
 	for (int i = 0; i < n; i++)
 		cin >> x[i];
 	for (int i = 0; i < 5; i++)
 		cin >> acm[i];
-	for (int i = 0; i <= n; i++)
+	ll s = 0;
+	for (int i = 0; i < n; i++)
 	{
-		
-		if (x[i] >= acm[0])
-		{
-			x[i] = solve(x[i]);
-			i -= 1;
-		}
-		else
-			x[n] += i==n?0:x[i];
+		s += x[i];
+		s = solve(s);
 	}
+	s = solve(s);
 	for (int i = 0; i < 5; i++)
 		cout << cnt[i] << " ";
-	cout << "\n" << x[n];
+	cout << "\n" << s;
 
-		
+
 	return 0;
 }
