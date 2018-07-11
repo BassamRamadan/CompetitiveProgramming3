@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+/*
+**
+ Success doesn't come to you ,
+  You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int MX=1e3+5;
+char a[MX][MX];
+bool vis[MX][MX];
+int n,m,cnt,component;
+int save[MX][MX];
+map<int,int>mp;
+bool ok(int i,int j){
+    return (i<0 || i==n || j<0 || j==m);
+}
+void dfs(int i,int j){
+    vis[i][j]=1;
+    save[i][j]=component;
+    ++cnt;
+    for(int k=0;k<4;k++){
+        int x=i+dir_r[k];
+        int y=j+dir_c[k];
+        if(ok(x,y) || vis[x][y] || a[x][y]=='*')
+            continue;
+        dfs(x,y);
+    }
+}
+int SC(int i,int j){
+    int ans=0;
+    map<int,int>dub;
+    for(int k=0;k<4;k++){
+        int x=i+dir_r[k];
+        int y=j+dir_c[k];
+        if(ok(x,y))
+            continue;
+        if(dub[save[x][y]])
+            continue;
+        ans+=mp[save[x][y]]%10;
+        dub[save[x][y]]=1;
+    }
+    return (ans+1)%10;
+}
+int main()
+{
+    Compiler_Beso
+    
+    
+    cin>>n>>m;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>a[i][j];
+        }
+    }
+   
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(a[i][j]=='.' && !vis[i][j]){
+                ++component;
+                cnt=0;
+                dfs(i,j);
+                mp[component]=cnt;
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(a[i][j]=='.')
+                cout<<a[i][j];
+            else
+                cout<<SC(i,j);
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
