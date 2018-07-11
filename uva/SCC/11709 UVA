@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+/*
+**
+ Success doesn't come to you ,
+  You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int MX=1e5+5;
+int cnt,n,m,ans;
+vector<vector<int>>v,l2(MX);
+vector<int>dfs_num,dfs_low,in,l1(MX);
+stack<int>st;
+void SCC(int nod){
+    dfs_low[nod]=dfs_num[nod]=++cnt;
+    in[nod]=1;
+    st.push(nod);
+    for(int w : v[nod]){
+        if(!dfs_num[w])
+            SCC(w);
+        if(in[w])
+            dfs_low[nod]=min(dfs_low[nod],dfs_low[w]);
+    }
+    if(dfs_low[nod]==dfs_num[nod]){
+        int x=-1;
+        ++ans;
+        while (1) {
+            x=st.top();
+            in[x]=0;
+            st.pop();
+            if(x==nod)
+                break;
+        }
+    }
+    
+}
+int main()
+{
+    Compiler_Beso
+    
+    
+    while (cin>>n>>m && (n || m)) {
+        dfs_low=dfs_num=in=l1;
+        v=l2;
+        ans=0;
+        map<string,int>mp;
+        cin.ignore();
+        for(int i=1;i<=n;i++){
+            string a;
+            getline(cin,a);
+            mp[a]=i;
+        }
+        for(int i=0;i<m;i++){
+            string a,b;
+             getline(cin,a);
+             getline(cin,b);
+            v[mp[a]].push_back(mp[b]);
+        }
+        for(int i=1;i<=n;i++){
+            if(!dfs_num[i]){
+                SCC(i);
+            }
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
