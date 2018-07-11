@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+/*
+**
+ Success doesn't come to you ,
+  You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int MX=1e5+5;
+vector<vector<int>>v,l1(MX);
+vector<int>vis,l2(MX),topo;
+void dfs(int nod){
+    vis[nod]=1;
+    for(int w : v[nod]){
+        if(!vis[w])
+            dfs(w);
+    }
+    topo.push_back(nod);
+}
+void dfs1(int nod){
+    vis[nod]=1;
+    for(int w : v[nod]){
+        if(!vis[w])
+            dfs(w);
+    }
+}
+int main()
+{
+    Compiler_Beso
+    
+    int t,e=0;
+    cin>>t;
+    while (t--) {
+       
+        vis=l2;
+        v=l1;
+        int n,m,ans=0;
+        cin>>n>>m;
+        for(int i=0;i<m;i++)
+        {
+            int x,y;
+            cin>>x>>y;
+            v[x].push_back(y);
+        }
+        for(int i=1;i<=n;i++)
+            if(!vis[i])
+                dfs(i);
+        vis=l2;
+        reverse(all(topo));
+        for(int i=0;i<topo.size();i++)
+            if(!vis[topo[i]]){
+                dfs1(topo[i]);
+                ++ans;
+            }
+        cout<<"Case "<<++e<<": "<<ans<<endl;
+        topo.clear();
+    }
+    
+    return 0;
+}
+
+
+
+
+
+
+
