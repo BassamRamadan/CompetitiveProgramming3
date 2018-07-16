@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+ int a[101][101];
+bool vis[101][101];
+  int n;
+bool ok(int i,int j){
+    return (i<1 || i>n || j<1 || j>n);
+}
+void dfs(int i,int j){
+    if(ok(i,j) || vis[i][j])
+        return;
+    vis[i][j]=1;
+    for(int k=0;k<4;k++){
+        int x=i+dir_r[k];
+        int y=j+dir_c[k];
+        if(ok(x,y) || a[x][y]!=a[i][j])
+            continue;
+        dfs(x,y);
+    }
+}
+int main()
+{
+    Compiler_Beso
+    
+    
+  
+    while (cin>>n && n) {
+       
+        clr(a,n);
+        clr(vis,0);
+        cin.ignore();
+        for(int i=1;i<n;i++){
+            string s; getline(cin,s);
+            stringstream ss;
+            ss<<s;
+            int x,y;
+            while (ss>>x>>y) {
+                a[x][y]=i;
+            }
+        }
+        int ans=0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                if(!vis[i][j]){
+                    ++ans;
+                    dfs(i,j);
+                }
+            }
+        }
+        cout<<(ans==n?"good":"wrong")<<endl;
+    }
+    
+    return 0;
+}
