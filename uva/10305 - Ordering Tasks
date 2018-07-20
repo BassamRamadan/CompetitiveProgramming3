@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+vector<vector<int>>v,l1(10001);
+vector<int>vis,l2(10001),ans;
+void dfs(int nod){
+   
+    vis[nod]=1;
+    for(int i : v[nod])
+        if(!vis[i])
+            dfs(i);
+     ans.pb(nod);
+}
+int main()
+{
+    Compiler_Beso
+    
+    int n,m;
+    while(cin>>n>>m &&(n || m)){
+        ans.clear();
+        v=l1;
+        vis=l2;
+        map<int,int>pa;
+        for(int i=0;i<m;i++)
+        {
+            int x,y; cin>>x>>y;
+            pa[x]=1;
+            v[x].pb(y);
+            v[y].pb(x);
+        }
+        for(auto t: pa){
+            if(!vis[t.first])
+                dfs(t.first);
+        }
+        for(int i=1;i<=n;i++){
+            if(!vis[i]){
+                dfs(i);
+            }
+        }
+         for(int i=ans.size()-1;i>=0;i--)
+             cout<<ans[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+
+
+
