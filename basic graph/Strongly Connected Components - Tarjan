@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+
+const int MX=1e5+5;
+vector<int>inst,low,dfs,l1(MX);
+vector<vector<int>>adj,VecScc,l2(MX);
+stack<int>st;
+int cnt;
+
+
+void SCC(int nod){
+  
+    dfs[nod]=low[nod]=++cnt;
+    inst[nod]=1;
+    st.push(nod);
+    for(int w : adj[nod]){
+        if(!dfs[w])
+            SCC(w);
+        if(inst[w])
+            low[nod]=min(low[nod],low[w]);
+    }
+    if(dfs[nod]==low[nod] ){
+        int tp = -1;
+        VecScc.push_back(vector<int>());
+        while (1)
+        {
+            tp = st.top();
+            VecScc.back().push_back(tp);
+            inst[tp] = 0;
+            st.pop();
+            if (tp == nod)
+                break;
+        }
+    }
+}
+
+
+void intial(){
+    VecScc.clear();
+    dfs=low=inst=l1;
+    adj=l2;
+}
+
+
+int main()
+{
+    Compiler_Beso
+    
+    int n,m;
+    while (cin>>n>>m && (n||m)) {
+        
+        intial();
+        
+        for(int i=0;i<m;i++){
+            int x,y; cin>>x>>y;
+            adj[x].pb(y);
+        }
+        for(int i=1;i<=n;i++)
+            if(!dfs[i])
+                SCC(i);
+        for(int i=0;i<VecScc.size();i++){
+            for(int j=0;j<VecScc[i].size();j++){
+                    cout<<VecScc[i][j]<<" ";
+                }
+                cout<<endl;
+            }
+
+        
+    }
+    
+   
+    
+    return 0;
+}
+
+
+
+
+
