@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+ 
+ 
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+ 
+ 
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+ 
+const int MX=1e5+5;
+vector<int>low,dfs,l1(MX);
+vector<vector<int>>adj,l2(MX);
+set<int>st;
+int cnt,root;
+ 
+ 
+void art_point(int nod , int par){
+    dfs[nod]=low[nod]=++cnt;
+ 
+    for(int w : adj[nod]){
+ 
+        if(!dfs[w]){
+ 
+            art_point(w, nod);
+            low[nod]=min(low[nod],low[w]);
+ 
+            if(low[w] >= dfs[nod]){
+                if(dfs[nod]==1 && root==0)
+                    root=1;
+                else
+                    st.insert(nod);
+            }
+        }
+        else if(w!=par)
+            low[nod]=min(low[nod],low[w]);
+    }
+ 
+}
+ 
+ 
+void intial(){
+    root=cnt=0;
+    dfs=low=l1;
+    adj=l2;
+    st.clear();
+}
+ 
+ 
+int main()
+{
+    Compiler_Beso
+ 
+ 
+    int n;
+    while (cin>>n && n) {
+ 
+        intial();
+ 
+        string s;
+        while (getline(cin, s) && s != "0"){
+ 
+            int y, x = -1;
+            stringstream ss(s);
+ 
+            while (ss >> y){
+ 
+                if (x == -1)
+                    x = y - 1;
+                else
+                    adj[x].push_back(y - 1), adj[y - 1].push_back(x);
+            }
+        }
+        art_point(1, -1);
+        cout<<st.size()<<endl;
+    }
+ 
+ 
+ 
+    return 0;
+}
