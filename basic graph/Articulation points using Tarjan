@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+const int MX=1e5+5;
+vector<int>low,dfs,l1(MX);
+vector<vector<int>>adj,l2(MX);
+stack<pair<int,int>>comp;
+set<int>st;
+int cnt,root;
+
+
+void art_point(int nod , int par){
+    dfs[nod]=low[nod]=++cnt;
+    for(int w : adj[nod]){
+        
+        if(!dfs[w])
+            art_point(w, nod);
+        if(w==par)
+            continue;
+        
+        low[nod]=min(low[nod],low[w]);
+        if(low[w] >= dfs[nod]){
+            if(dfs[nod]==1 && root==0)
+                 root=1;
+            else
+                st.insert(nod);
+            
+        }
+    }
+  
+}
+
+
+void intial(){
+    dfs=low=l1;
+    adj=l2;
+    st.clear();
+}
+
+
+int main()
+{
+    Compiler_Beso
+    
+    
+    int n,m;
+    while (cin>>n>>m && (n||m)) {
+        
+        intial();
+        
+        for(int i=0;i<m;i++){
+            int x,y; cin>>x>>y;
+            adj[x].pb(y);
+            adj[y].pb(x);
+        }
+        for(int i=1;i<=n;i++)
+            if(!dfs[i])
+                art_point(i, -1);
+        
+        
+        cout<<"cut points : ";
+        for(auto t : st)
+            cout<<t<<" ";
+    }
+    
+    
+    
+    
+    return 0;
+}
+
