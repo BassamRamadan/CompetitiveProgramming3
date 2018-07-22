@@ -49,7 +49,7 @@ void art_point(int nod , int par){
             }
         }
         else if(w!=par)
-            low[nod]=min(low[nod],low[w]);
+            low[nod]=min(low[nod],dfs[w]);
     }
  
 }
