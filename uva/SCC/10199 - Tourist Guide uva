@@ -1,0 +1,109 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+const int MX=1e5+5;
+vector<int>low,dfs,l1(MX);
+vector<vector<int>>adj,l2(MX);
+set<int>st;
+int cnt,root;
+
+
+void art_point(int nod , int par){
+    dfs[nod]=low[nod]=++cnt;
+    
+    for(int w : adj[nod]){
+        
+        if(!dfs[w]){
+            
+            art_point(w, nod);
+            low[nod]=min(low[nod],low[w]);
+            
+            if(low[w] >= dfs[nod]){
+                if(par==-1 && root==0)
+                    root=1;
+                else
+                    st.insert(nod);
+            }
+        }
+        else if(w!=par)
+            low[nod]=min(low[nod],dfs[w]);
+    }
+    
+}
+
+
+void intial(){
+    root=cnt=0;
+    dfs=low=l1;
+    adj=l2;
+    st.clear();
+}
+
+
+int main()
+{
+    Compiler_Beso
+    
+    
+    int n,e=0;
+    while (cin>>n && n) {
+        
+        if(e) cout<<endl;
+        intial();
+        map<string ,int>mp1;
+        map<int,string>mp2;
+        for(int i=0;i<n;i++){
+            string s; cin>>s;
+            mp1[s]=i+1;
+            mp2[i+1]=s;
+        }
+        int m; cin>>m;
+        for(int i=0;i<m;i++){
+            string s,g; cin>>s>>g;
+            adj[mp1[s]].pb(mp1[g]);
+            adj[mp1[g]].pb(mp1[s]);
+        }
+        for(int i=1;i<=n;i++){
+            if(!dfs[i]){
+                root=0;
+                art_point(i, -1);
+            }
+        }
+        cout<<"City map #"<<++e<<": "<<st.size()<<" camera(s) found"<<endl;
+        
+        vector<string>se;
+        for(auto it : st)
+           se.pb(mp2[it]);
+        sort(all(se));
+        for(int i=0;i<se.size();i++)
+            cout<<se[i]<<endl;
+        
+    }
+    
+    
+    
+    return 0;
+}
