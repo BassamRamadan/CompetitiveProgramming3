@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+/*
+ **
+    *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+int n;
+ll mem[70][70][70][2][70];
+ll rec(int i,int rem,int prev,int cnt){
+    if(i==n){
+        rem+=cnt;
+        return rem==0;
+    
+    }
+    if(mem[n][i][rem][prev][cnt]!=-1)
+        return mem[n][i][rem][prev][cnt];
+    ll x=0,y=0;
+    if(prev==0){
+        x=rec(i+1, rem, 0, cnt);
+        y=rec(i+1, rem-1, 1, cnt+1);
+    }
+    else{
+        x=rec(i+1, rem, 0, cnt);
+        y=rec(i+1, rem-1, 1, cnt);
+    }
+    return mem[n][i][rem][prev][cnt]=x+y;
+}
+int main()
+{
+    Compiler_Beso
+    
+    clr(mem,-1);
+    int rem;
+    while(cin>>n>>rem &&(n>-1)){
+        cout<<rec(0, rem, -1, 0)<<endl;
+    }
+    
+    return 0;
+}
+
+
+
+
+
