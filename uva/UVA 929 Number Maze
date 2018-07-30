@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+ 
+ 
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+ 
+ 
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+ 
+vector<vector<pair<int, int> > >v(1e5+2);
+vector<ll>dis(1e5+1,1e18),par(1e5+2,-1);
+ int n,m;
+bool ok(int i,int j){
+    return (i>=0 && i<n && j>=0 && j<m);
+}
+int main(){
+ 
+    Compiler_Beso
+ 
+    int t; cin>>t;
+    while (t--) {
+ 
+        cin>>n>>m;
+        int a[1000][1000];
+         int costs[1000][1000];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                cin>>a[i][j];
+                costs[i][j]=1000000000;
+            }
+        }
+       priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > q;
+        q.push({a[0][0],{0,0}});
+        costs[0][0]=a[0][0];
+        while (!q.empty()) {
+            pair<int,pair<int,int>>cur=q.top();
+            q.pop();
+            if(cur.first==costs[cur.second.first][cur.second.second]){
+            for(int k=0;k<4;k++){
+                int pi=cur.second.first+dir_r[k];
+                int pj=cur.second.second+dir_c[k];
+                if(ok(pi,pj)){
+                    if(a[pi][pj]+costs[cur.second.first][cur.second.second]<costs[pi][pj]){
+                        costs[pi][pj]=a[pi][pj]+costs[cur.second.first][cur.second.second];
+                        q.push({costs[pi][pj],{pi,pj}});
+                        }
+                    }
+                }
+            }
+        }
+        cout<<costs[n-1][m-1]<<"\n";
+    }
+ 
+    return 0;
+}
+ 
