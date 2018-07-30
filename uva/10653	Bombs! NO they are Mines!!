@@ -1,0 +1,88 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int MX=1e3+3;
+
+int n,m;
+bool ok(int i,int j){
+    return (i>=0 && i<n && j>=0 && j<m);
+}
+int main(){
+    
+    Compiler_Beso
+    
+    
+    while (cin>>n>>m && (n || m)) {
+        vector<vector<int>>a(n,vector<int>(m));
+        int costs[MX][MX];
+        int line; cin>>line;
+        for(int i=0;i<line;i++){
+            int x,num; cin>>x>>num;
+            while (num--) {
+                int y; cin>>y;
+                a[x][y]=1;
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                costs[i][j]=1e9;
+            }
+        }
+        int si,sj,ei,ej;
+        cin>>si>>sj>>ei>>ej;
+        priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > q;
+        q.push({0,{si,sj}});
+        costs[si][sj]=0;
+        while (!q.empty()) {
+            pair<int,pair<int,int>>cur=q.top();
+            q.pop();
+            int pi=cur.second.first,pj=cur.second.second;
+            if(pi==ei && pj==ej)continue;
+            for(int i=0;i<4;i++){
+                int x=pi+dir_r[i];
+                int y=pj+dir_c[i];
+                if(ok(x,y) && a[x][y]!=1){
+                    if(costs[x][y]>costs[pi][pj]+1){
+                        costs[x][y]=costs[pi][pj]+1;
+                        q.push({costs[x][y],{x,y}});
+                    }
+                }
+            }
+        }
+        cout<<costs[ei][ej]<<endl;
+        
+    }
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
+
