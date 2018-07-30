@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+
+
+
+int main(){
+    
+    Compiler_Beso
+    
+    int t; cin>>t;
+    while (t--) {
+        
+        int n, m,cosSR,SR;
+        cin >> n >>SR >> cosSR >> m;
+        vector<ll>dis(1001,1e18);
+       vector<vector<pair<int, int> > >v(n+1);
+        for (int i = 0; i < m; i++)
+        {
+            int a, b, c;
+            cin >> a >> b >> c;
+            v[a].push_back({ b, c });
+            v[b].push_back({ a, c });
+        }
+        dis[SR] = 0;
+        priority_queue<pair<int, int>>q;
+        q.push({ SR, 0 });
+        while (!q.empty())
+        {
+            pair<int, int>cur = q.top();
+            q.pop();
+            for (int i = 0; i < v[cur.first].size(); i++){
+                int b = v[cur.first][i].first;
+                int c = v[cur.first][i].second;
+                if (dis[b]>dis[cur.first] + c)
+                {
+                    dis[b] = dis[cur.first] + c;
+                    q.push({ b, dis[b] });
+                }
+            }
+        }
+        int ans=0;
+        for(int i=1;i<=n;i++)
+            ans+=dis[i]<=cosSR;
+        cout<<ans<<endl;
+        if(t)
+            cout<<endl;
+    }
+   
+    return 0;
+}
+
+
+
+
+
