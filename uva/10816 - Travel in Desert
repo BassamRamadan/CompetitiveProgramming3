@@ -1,0 +1,111 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+vector<vector<pair<int,pair<double,double>>>>vv(10009),v;
+vector<double>Search;
+int n,m,s,e;
+pair<double, double>op{1e9,1e9};
+vector<int>cnt;
+bool ok(double md){
+    vector<double>tot_len(10009,1e5),max_tem(10009,1e5),par(10009,-1);
+    priority_queue<pair<pair<double,double>,int> , vector<pair<pair<double,double>,int>> ,greater<pair<pair<double,double>,int>> >q;
+    q.push({{0,0},s});
+    tot_len[s]=0;
+    max_tem[s]=0;
+    while (!q.empty()) {
+        pair<pair<double,double>,int>cur=q.top();
+        q.pop();
+        for(pair<int,pair<double,double>> w : v[cur.second]){
+            double len=w.second.second;
+            double tem=w.second.first;
+            int ch=w.first;
+            if( (tot_len[ch]>tot_len[cur.second]+len) && tem<=md){
+                max_tem[ch]=max(max_tem[cur.second],tem);
+                tot_len[ch]=tot_len[cur.second]+len;
+                par[ch]=cur.second;
+                q.push({{max_tem[ch],tot_len[ch]},ch});
+            }
+        }
+    }
+    vector<int>ans;
+    int d=par[e];
+    while (d!=-1) {
+        ans.pb(d);
+        d=par[d];
+    }
+    reverse(all(ans));
+    ans.pb(e);
+    if(tot_len[e]==1e5 || max_tem[e]==1e5)
+        return 0;
+    if(max_tem[e]<op.second || (max_tem[e]==op.second && tot_len[e]<op.first))
+        op={tot_len[e],max_tem[e]},cnt=ans;
+    return 1;
+}
+void bin(){
+    int l=0,r=(int)Search.size();
+    sort(all(Search));
+    while (l<=r) {
+        int md=(l+r)/2;
+        
+        if(ok(Search[md])){
+            r=md-1;
+        }
+        else
+            l=md+1;
+    }
+}
+int main()
+{
+    Compiler_Beso
+    
+    
+    
+    while(cin>>n>>m>>s>>e){
+        v=vv;
+        op={1e9,1e9};
+        for(int i=0;i<m;i++){
+            int x,y;
+            double r,d;
+            cin>>x>>y>>r>>d;
+            v[x].pb({y,{r,d}});
+            v[y].pb({x,{r,d}});
+            Search.pb(r);
+        }
+        bin();
+        bool f=0;
+        for(int w : cnt){
+            if(!f)
+                cout<<w;
+            else
+                cout<<" "<<w;
+            f=1;
+        }
+        cout<<endl<<fixed<<setprecision(1)<<op.first<<" "<<fixed<<setprecision(1)<<op.second<<endl;
+    }
+    return 0;
+}
+
+
