@@ -1,0 +1,111 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+
+
+vector<vector<int> >nod_in_dis2j;
+vector<int> depth;
+vector<vector<int>> v;
+void dfs(int nod , int par){
+    nod_in_dis2j[nod][0]=par;
+    for(int w : v[nod]){
+        if(w!=par){
+            depth[w]=depth[nod]+1;
+            dfs(w, nod);
+        }
+    }
+}
+void spare_table(int n){
+    for(int j=1;j<=16;j++){
+        for(int i=1;i<=n;i++){
+            if(nod_in_dis2j[i][j-1]){
+                nod_in_dis2j[i][j]=nod_in_dis2j[nod_in_dis2j[i][j-1]][j-1];
+            }
+        }
+    }
+}
+int LCA(int a , int b){
+    if(depth[a]>depth[b])
+        swap(a, b);
+    for(int i=16;i>=0;i--)
+        if(depth[b]-(1<<i)>=depth[a])
+            b=nod_in_dis2j[b][i];
+    if(a==b)
+        return a;
+    for(int i=16;i>=0;i--){
+        if(nod_in_dis2j[a][i]!=nod_in_dis2j[b][i]){
+            a=nod_in_dis2j[a][i];
+            b=nod_in_dis2j[b][i];
+        }
+    }
+    return nod_in_dis2j[a][0];
+}
+
+int main()
+{
+    Compiler_Beso
+    
+    
+    int t; cin>>t;
+    for(int c=1;c<=t;c++){
+        int n,q;
+        cin>>n;
+        
+        nod_in_dis2j = vector<vector<int> >(n + 1, vector<int>(19));
+        depth = vector<int>(n + 1);
+        v = vector<vector<int>>(n+1);
+        
+        
+        for(int i=1 ; i<=n ;i++){
+            int x,y;
+            cin>>x>>y;
+            v[i].pb(y);
+            v[y].pb(i);
+        }
+        cin>>q;
+        dfs(1,0);
+        spare_table(n);
+        
+        cout<<"Case "<<c<<":\n";
+        while (q--) {
+            int x,y;
+            cin>>x>>y;
+            cout<<LCA(x, y)<<endl;
+        }
+    }
+    
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
