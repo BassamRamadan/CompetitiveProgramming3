@@ -1,0 +1,102 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("","r",stdin);freopen("","w",stdout);
+}
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+bool ok(string config) {
+    
+    bool rows =
+    (config[0] != '.' && config[0] == config[1] && config[1] == config[2]) ||
+    (config[3] != '.' && config[3] == config[4] && config[4] == config[5]) ||
+    (config[6] != '.' && config[6] == config[7] && config[7] == config[8]);
+    
+    bool columns =
+    (config[0] != '.' && config[0] == config[3] && config[3] == config[6]) ||
+    (config[1] != '.' && config[1] == config[4] && config[4] == config[7]) ||
+    (config[2] != '.' && config[2] == config[5] && config[5] == config[8]);
+    
+    bool diagonals =
+    (config[0] != '.' && config[0] == config[4] && config[4] == config[8]) ||
+    (config[2] != '.' && config[2] == config[4] && config[4] == config[6]);
+    
+    return rows || columns || diagonals;
+}
+
+int main(){
+    
+    Compiler_Beso
+    
+  
+    while (1) {
+        string board;
+        cin>>board;
+        if(board=="end")break;
+        string inial=".........",ans="invalid";
+        queue<pair<string,bool>>q;
+        q.push({inial,1});
+        while (!q.empty()) {
+            pair<string,bool>cur=q.front();
+            q.pop();
+            if(cur.first==board){
+                int x=0,o=0;
+                for(int i=0;i<9;i++){
+                    x+=cur.first[i]=='X';
+                    o+=cur.first[i]=='O';
+                }
+               if(cur.first.find('.')==-1)
+                    ans="valid";
+                else
+                {
+                    if(ok(cur.first))
+                        ans="valid";
+                }
+                break;
+            }
+            if(ok(cur.first)){
+                continue;
+            }
+            for(int i=0;i<9;i++){
+                if(cur.first[i]=='.'){
+                    cur.first[i]=cur.second?'X':'O';
+                    if(cur.first[i]==board[i]){
+                        q.push({cur.first,!cur.second});
+                    }
+                    cur.first[i]='.';
+                }
+            }
+        }
+        cout<<ans<<endl;
+    }
+    
+    
+    return 0;
+}
+
+
+
+
+
+
