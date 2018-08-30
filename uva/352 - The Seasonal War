@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("","r",stdin);freopen("","w",stdout);
+}
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+//Posibles moves for the Knight
+int recorrerA[8]= {-2,-1,1,2,2,1,-1,-2};
+int recorrerB[8]= {1,2,2,1,-1,-2,-2,-1};
+int n;
+vector<vector<char>>v;
+vector<vector<int>>vis;
+bool ok(int i,int j){
+    return (i>=0&&j>=0 && i<n && j<n);
+}
+void dfs(int i,int j){
+    vis[i][j]=1;
+    for(int k=0;k<8;k++){
+        int x=i+dir_r[k];
+        int y=j+dir_c[k];
+        if(ok(x,y) && v[x][y]=='1' && !vis[x][y])
+            dfs(x,y);
+    }
+}
+int main(){
+    
+    Compiler_Beso
+    
+    int e=1;
+    while (cin>>n) {
+       v = vector<vector<char>>(n,vector<char>(n));
+        vis = vector<vector<int>>(n,vector<int>(n));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cin>>v[i][j];
+            }
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(v[i][j]=='1' && !vis[i][j]){
+                    dfs(i,j);
+                    ++ans;
+                }
+            }
+        }
+        cout<<"Image number "<<e++<<" contains "<<ans<<" war eagles."<<endl;
+    }
+    return 0;
+    
+}
+
+
+
+
+
