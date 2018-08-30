@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("","r",stdin);freopen("","w",stdout);
+}
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+//Posibles moves for the Knight
+int recorrerA[8]= {-2,-1,1,2,2,1,-1,-2};
+int recorrerB[8]= {1,2,2,1,-1,-2,-2,-1};
+
+int main(){
+    
+    Compiler_Beso
+    
+    int t; cin>>t;
+    while (t--) {
+        int n,qu;
+        cin>>n>>qu;
+        map<string,int>mp;
+        map<int,string>mp2;
+        vector<vector<int>>v(1e3+5);
+        int l=0;
+        while (n--) {
+            string a,b;
+            cin>>a>>b;
+            if(!mp[a])
+                mp[a]=++l,mp2[l]=a;
+            if(!mp[b])
+                mp[b]=++l,mp2[l]=b;
+            v[mp[a]].pb(mp[b]);
+            v[mp[b]].pb(mp[a]);
+        }
+        while (qu--) {
+            string a,b;
+            cin>>a>>b;
+            queue<int>q;
+            vector<int>par(1e3,-1),c(1e3,1e9);
+            q.push(mp[a]);
+            c[mp[a]]=0;
+            while (!q.empty()) {
+                int cur=q.front();
+                q.pop();
+                for(int w : v[cur]){
+                    if(c[w]>c[cur]+1){
+                        c[w]=c[cur]+1;
+                        par[w]=cur;
+                        q.push(w);
+                    }
+                }
+            }
+            string ans; ans=b[0];
+            int d=par[mp[b]];
+            while (1) {
+                ans+=mp2[d][0];
+                if(mp2[d]==a)break;
+                d=par[d];
+            }
+            reverse(all(ans));
+            cout<<ans<<endl;
+        }
+        if(t)
+            cout<<endl;
+    }
+    return 0;
+    
+}
+
+
+
+
+
