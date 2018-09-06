@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+#define pi pair<int,int>
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+}
+
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+//Posibles moves for the Knight
+int recorrerA[8]= {-2,-1,1,2,2,1,-1,-2};
+int recorrerB[8]= {1,2,2,1,-1,-2,-2,-1};
+int cent[]={1,5,10,25,50};
+ll mem[5][300009];
+ll rec(int i,int rem){
+    if(i==5)
+        return rem==0;
+    ll &ret=mem[i][rem];
+    if(ret!=-1)
+        return ret;
+    if(rem==0)
+        return 1;
+    if(rem<cent[i])
+        return 0;
+    return ret=rec(i+1, rem)+rec(i,rem-cent[i]);
+}
+int main(){
+    
+    Compiler_Beso
+   
+    int n;
+    clr(mem,-1);
+    while (cin>>n) {
+        ll ans=rec(0,n);
+        if(ans==1)
+            cout<<"There is only 1 way to produce "<<n<<" cents change."<<endl;
+        else
+            cout<<"There are "<<ans<<" ways to produce "<<n<<" cents change."<<endl;
+    }
+    return 0;
+    
+}
+
+
+
+
+
+
+
+
+
