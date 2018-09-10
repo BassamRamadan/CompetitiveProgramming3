@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+#define pi pair<int,int>
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+}
+
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+//Posibles moves for the Knight
+int recorrerA[8]= {-2,-1,1,2,2,1,-1,-2};
+int recorrerB[8]= {1,2,2,1,-1,-2,-2,-1};
+string s;
+ll mem[100][100];
+ll rec(int i,int j){
+    if(i==j)
+        return 1;
+    if(i+1==j)
+        return 2+(s[i]==s[j]);
+    ll &x=mem[i][j];
+    if(x!=-1)
+        return x;
+    x=0;
+    if(s[i]==s[j])
+         x+=rec(i+1,j-1)+1;
+     x +=rec(i+1, j);
+     x +=rec(i, j-1);
+     x -=rec(i+1, j-1);
+    return x;
+}
+int main(){
+    
+    Compiler_Beso
+   
+    
+    int t;
+    cin>>t;
+    while (t--) {
+        clr(mem,-1);
+        cin>>s;
+        cout<<rec(0,(int)s.size()-1)<<endl;;
+    }
+    
+    
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
