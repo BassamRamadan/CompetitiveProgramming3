@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+/*
+ **
+ *** Your best is not enough
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+#define pi pair<int,int>
+typedef long long ll;
+typedef unsigned long long ull;
+
+void fre(){
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+}
+
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+int FixMod(int s,int k){return (s%k+k)%k;}
+double dic(pair<int,int>a,pair<int,int>b)
+{return (sqrt( (a.first-b.first)*(a.first-b.first) +  (a.second-b.second)* (a.second-b.second) ));}
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+//Posibles moves for the Knight
+int recorrerA[8]= {-2,-1,1,2,2,1,-1,-2};
+int recorrerB[8]= {1,2,2,1,-1,-2,-2,-1};
+vector<int>primf;
+ll ans,sz;
+void prime_factor(int n){
+    for(int i=2;i*i<=n;i++){
+        bool ok=0;
+        while (n%i==0) {
+            ok=1;
+            n/=i;
+        }
+        if(ok)
+            primf.pb(i);
+    }
+    if(n>1)
+        primf.pb(n);
+}
+void rec(int i,ll s,int c){
+    if(i==primf.size()){
+        if(c)
+            ans+=c&1?-sz/s:sz/s;
+        return;
+    }
+    rec(i+1, s, c);
+    rec(i+1, s*primf[i], c+1);
+}
+int main(){
+    
+    Compiler_Beso
+   
+  int n;
+    while (cin>>n && n) {
+        if(n==1){
+            cout<<1<<endl;
+            continue;
+        }
+        primf.clear();
+        prime_factor(n);
+        sz=n-1;
+        ans=n-1;
+        rec(0,1,0);
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+
+
+
+
