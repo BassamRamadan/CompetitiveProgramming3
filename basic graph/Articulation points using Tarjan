@@ -36,19 +36,20 @@ void art_point(int nod , int par){
     dfs[nod]=low[nod]=++cnt;
     for(int w : adj[nod]){
         
-        if(!dfs[w])
+        if(!dfs[w]){
+ 
             art_point(w, nod);
-        if(w==par)
-            continue;
-        
-        low[nod]=min(low[nod],low[w]);
-        if(low[w] >= dfs[nod]){
-            if(dfs[nod]==1 && root==0)
-                 root=1;
-            else
-                st.insert(nod);
-            
+            low[nod]=min(low[nod],low[w]);
+ 
+            if(low[w] >= dfs[nod]){
+                if(dfs[nod]==1 && root==0)
+                    root=1;
+                else
+                    st.insert(nod);
+            }
         }
+        else if(w!=par)
+            low[nod]=min(low[nod],dfs[w]);
     }
   
 }
