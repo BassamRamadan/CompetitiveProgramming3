@@ -1,0 +1,102 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int SZ=2e5+9;
+int a[SZ];
+vector<pair<int,int>>seg(4 * SZ);
+int n,m;
+void build(int p , int l, int r){
+    if(l==r){
+        seg[p]={l,l};
+        return;
+    }
+    int mid=(l+r)/2;
+    build(p*2, l, mid);
+    build(p*2+1, mid+1, r);
+    pair<int,int> il=seg[p*2];
+    pair<int,int> ir=seg[p*2+1];
+    if(a[il.first] <= a[ir.first])
+        seg[p].first=il.first;
+    else
+         seg[p].first=ir.first;
+    if(a[il.second] >= a[ir.second])
+        seg[p].second=il.second;
+    else
+        seg[p].second=ir.second;
+}
+pair<int,int> get(int p , int l, int r, int x, int y, int val){
+   if(l>y || r<x)
+       return {-1,-1};
+    if(l>=x && r<=y)
+        return seg[p];
+    int mid=(l+r)/2;
+    pair<int,int> il=::get(p*2, l, mid, x, y, val);
+    pair<int,int> ir=::get(p*2+1, mid+1, r, x, y, val);
+    if(il.first==-1)
+        return ir;
+    if(ir.first==-1)
+        return il;
+    if(a[il.first]!=val || a[il.second]!=val)
+        return il;
+    if(a[ir.first]!=val || a[ir.second]!=val)
+        return ir;
+    return {-1,-1};
+}
+int main(){
+    Compiler_Beso
+    
+    
+   
+    cin>>n>>m;
+    a[n]=1e9;
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+    build(1, 0, n-1);
+    while (m--) {
+        int l,r,val;
+        cin>>l>>r>>val;
+        l--;r--;
+        pair<int, int> ans = ::get(1, 0, n-1, l, r, val);
+        if(ans.first!=-1 ){
+                if(a[ans.first]!=val)
+                    cout<<ans.first+1<<endl;
+                else if(a[ans.second]!=val)
+                    cout<<ans.second+1<<endl;
+                else
+                    cout<<-1<<endl;
+            }
+        else
+            cout<<-1<<endl;
+    }
+    
+    
+    
+    
+    
+    
+    
+    return 0;
+}
+
