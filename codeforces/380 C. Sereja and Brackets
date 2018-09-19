@@ -1,0 +1,101 @@
+#include <bits/stdc++.h>
+/*
+ **
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+const int MX=1e6;
+vector<pair<int,pair<int, int>>>seg(4*MX);
+string s;
+void build(int p,int l,int r){
+    if(l==r){
+        if(s[l]=='(')
+            seg[p].second.first++;
+        else
+            seg[p].second.second++;
+        return;
+    }
+    int mid=(l+r)/2;
+    ::build(p*2, l, mid);
+    ::build(p*2+1, mid+1, r);
+    pair<int,pair<int, int>> il,ir;
+    il=seg[p*2];
+    ir=seg[p*2+1];
+    int mn=min(il.second.first,ir.second.second);
+    seg[p].first=il.first+ir.first+mn;
+    seg[p].second.second=il.second.second+ir.second.second-mn;
+    seg[p].second.first=il.second.first+ir.second.first-mn;
+}
+pair<int,pair<int, int>> get(int p, int l, int r, int x, int y){
+    if(l>y || r<x){
+        return {0,{0,0}};
+    }
+    if(l>=x && r<=y){
+        return seg[p];
+    }
+    int mid=(l+r)/2;
+    pair<int,pair<int, int>> il=::get(p*2, l, mid, x, y);
+    pair<int,pair<int, int>> ir=::get(p*2+1, mid+1, r, x, y);
+    pair<int,pair<int, int>> ret;
+    int mn=min(il.second.first,ir.second.second);
+    ret.first=il.first+ir.first+mn;
+    ret.second.second=il.second.second+ir.second.second-mn;
+    ret.second.first=il.second.first+ir.second.first-mn;
+    return ret;
+}
+
+
+int main()
+{
+    Compiler_Beso
+    
+    
+  
+    cin>>s;
+    build(1, 0, (int)s.size()-1);
+    int q;
+    cin>>q;
+    while (q--) {
+        int x,y;
+        cin>>x>>y;
+        x--;y--;
+        cout<<get(1, 0,  (int)s.size()-1, x, y).first*2<<endl;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
