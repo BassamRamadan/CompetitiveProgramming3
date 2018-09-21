@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+/*
+ **
+ IF all you have is a hammer , everything looks like a nail :D
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+
+int main()
+{
+    Compiler_Beso
+    
+    
+    int t; cin>>t;
+    while (t--) {
+        int a,b,c;
+        cin>>a>>b>>c;
+        ll ans[3]={0};
+        for(ll x=-100;x<=100 && !ans[0];x++){
+                for(ll y=-100;y<=100&& !ans[0];y++){
+                    ll z=a-x-y;
+                    if(x!=y && y!=z && x!=z){
+                        if(x*y*z==b && x*x+y*y+z*z==c){
+                            ans[0]=x;
+                            ans[1]=y;
+                            ans[2]=z;
+                            break;
+                    }
+                }
+            }
+        }
+        if(!ans[0])
+            printf("No solution.\n");
+        else
+            printf("%d %d %d\n",ans[0],ans[1],ans[2]);
+    }
+    
+    
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
+
