@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+/*
+ **
+ IF all you have is a hammer , everything looks like a nail :D
+ Success doesn't come to you ,
+ You Go To IT .
+ **
+ */
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+
+int main()
+{
+    Compiler_Beso
+    
+    
+    int n,e=0;
+    while (cin>>n && n) {
+        if(e)
+            printf("\n");
+        e=1;
+        bool flag=0;
+        for(int y=1234;y<=98765/n;y++){
+            int x=y*n;
+            int bits=(y<10000);
+            int temp=x;
+            while (temp) {
+                bits |=(1<<(temp%10));
+                temp/=10;
+            }
+            temp=y;
+            while (temp) {
+                bits |=(1<<(temp%10));
+                temp/=10;
+            }
+            if(bits==(1<<10)-1){
+                flag=1;
+                printf("%0.5d / %0.5d = %d\n",x,y,n);
+            }
+        }
+        if(!flag)
+            printf("There are no solutions for %d.\n",n);
+    }
+    
+    
+    
+    
+    
+    
+    return 0;
+}
+
+
+
+
+
+
