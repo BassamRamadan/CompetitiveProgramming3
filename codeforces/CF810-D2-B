@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+bool cmp(pair<int, pair<int, int>>a, pair<int, pair<int, int>>b){
+	ll s1 = min(a.second.first * 2, a.second.second)+b.second.first;
+	ll s2 = min(b.second.first * 2, b.second.second) + a.second.first;
+	if (s1>s2)
+		return 1;
+	return 0;
+}
+int main()
+{
+	Compiler_Beso
+
+		int n, k;
+	cin >> n >> k;
+	vector<pair<int, pair<int, int>>>v;
+	ll ans = 0;
+	for (int i = 0; i < n; i++){
+		int x, y;
+		cin >> x >> y;
+		if (!x)continue;
+		if (x >= y){
+			ans += y;
+		}
+		else{
+			v.push_back({ x-y, {x,y} });
+		}
+	}
+	sort(all(v),cmp);
+	for (int i = 0; i < v.size(); i++){
+		if (k>0){
+			ans += min(v[i].second.first * 2, v[i].second.second);
+		}
+		else{
+			ans += v[i].second.first;
+		}
+		k--;
+	}
+	cout << ans;	
+	return 0;
+}
