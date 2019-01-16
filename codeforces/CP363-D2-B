@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+ll a[200001];
+int main()
+{
+	Compiler_Beso
+
+		int n, k;
+	cin >> n >> k;
+	for (int i = 0; i < n; i++){
+		int x;
+		cin >> x;
+		a[i + 1] = a[i] + x;
+	}
+	pair<ll, int>ans; ans.first = 1e18;
+	for (int i = k; i <= n; i++){
+		ll sum = a[i] - a[i - k];
+		if (sum < ans.first)
+			ans = { sum, i };
+	}
+	cout << ans.second-k+1;
+		
+
+		
+	return 0;
+}
