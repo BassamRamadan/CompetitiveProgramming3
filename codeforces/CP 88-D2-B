@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+double dic(pair<int, int>a, pair<int, int>b){
+	return (sqrt((a.first - b.first)*(a.first - b.first) + (a.second - b.second)*(a.second - b.second)));
+}
+int main()
+{
+	Compiler_Beso
+
+		int n, m, x;
+	cin >> n >> m >> x;
+	map<char, vector<pair<int, int>>>mp;
+	map<char, double>sav;
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < m; j++){
+			char c;
+			cin >> c;
+			mp[c].push_back({ i + 1, j + 1 });
+		}
+	}
+	for (auto it1 : mp){
+		sav[it1.first] = 100;
+		for (auto it2 : it1.second){
+			for (auto it3 : mp['S']){
+				sav[it1.first] = min(sav[it1.first], dic(it2, it3));
+			}
+		}
+	}
+	int ans = 0;
+	int sz; cin >> sz;
+	for (int i = 0; i < sz; i++){
+		char c; cin >> c;
+		if (isupper(c) && (mp['S'].size() == 0 || mp[tolower(c)].size() == 0)){
+			return cout << -1, 0;
+		}
+		if (islower(c) && mp[c].size())
+			continue;
+		if (isupper(c)){
+			ans += sav[tolower(c)]>x;
+		}
+		else{
+			return cout << -1, 0;
+		}
+
+	}
+	cout << ans;
+	return 0;
+}
