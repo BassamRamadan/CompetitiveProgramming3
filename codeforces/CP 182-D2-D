@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+double dic(pair<int, int>a, pair<int, int>b){
+	return (sqrt((a.first - b.first)*(a.first - b.first) + (a.second - b.second)*(a.second - b.second)));
+}
+int main()
+{
+	Compiler_Beso
+
+		string a, b;
+	cin >> a >> b;
+	int sz1 = a.size(), sz2 = b.size();
+	int mn = min(sz1, sz2), ans = 0;
+	string cop1, cop2, sub;
+	for (int siz = 1; siz <= mn; siz++){
+		if (sz1%siz == 0 && sz2%siz == 0){
+			sub = a.substr(0, siz);
+			cop1 = sub;
+			cop2 = sub;
+			while (cop1.size() < sz1)
+			{
+				cop1 += sub;
+			}
+			while (cop2.size() < sz2)
+			{
+				cop2 += sub;
+			}
+			ans += (cop1 == a && cop2 == b);
+		}
+	}
+	cout << ans;
+	return 0;
+}
