@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+int main()
+{
+	Compiler_Beso
+
+		int x, y;
+	cin >> x >> y;
+	int c = 1;
+	while (1){
+		if (c&1){
+			if (x >= 2 && y >= 2){
+				x -= 2, y -= 2; c++;
+			}
+			else if (x >= 1 && y >= 12){
+				x -= 1, y -= 12; c++;
+			}
+			else if (y >= 22){
+				y -= 22;
+				c++;
+			}
+			else{
+				finish("Hanako");
+			}
+		}
+		else{
+			if (y >= 22){
+				y -= 22;
+				c++;
+			}
+			else if (x >= 1 && y >= 12){
+				x -= 1, y -= 12; c++;
+			}
+			else if(x >= 2 && y >= 2){
+				x -= 2, y -= 2; c++;
+			}
+			else{
+				finish("Ciel");
+			}
+		}
+		
+	}
+	return 0;
+}
