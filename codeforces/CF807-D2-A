@@ -41,7 +41,7 @@ int main()
 	}
 
 
-	for (int i = 1; i<t; i = i + 2){
+	for (int i = 1; i<t; i++){
 		if (x[i]>x[i - 1]) {
 			cout << "unrated";
 			return 0;
