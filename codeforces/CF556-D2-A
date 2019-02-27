@@ -1,0 +1,32 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<algorithm>
+#include<assert.h>
+#include<vector>
+#include<sstream>
+using namespace std;
+void Compiler_Beso()
+{
+	std::ios_base::sync_with_stdio(0);
+	cin.tie(NULL); cout.tie(NULL);
+
+}
+enum dir       { DOWN = 0 , UP , RIGHT , LEFT , DOWN_RIGHT, DOWN_LEFT , UP_RIGHT , UP_LEFT };
+int  dir_r[] = {   1      , -1 ,   0   ,   0  ,     1     ,     1     ,     -1   ,    -1   };
+int  dir_c[] = {   0      ,  0 ,   1   ,  -1  ,     1     ,    -1     ,      1   ,    -1   };
+int main()
+{
+	
+	Compiler_Beso();
+	int one = 0, zero = 0,n;
+	string s;
+	cin >>n>> s;
+	for (int i = 0; i < s.length(); i++)
+	{
+		s[i] == '1' ? ++one : ++zero;
+	}
+	cout << n-min(one,zero)*2;
+
+	return 0;
+}
