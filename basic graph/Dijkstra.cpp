@@ -45,11 +45,11 @@ int main(){
             v[b].push_back({ a, c });
         }
         costs[SR] = 0;
-        priority_queue<pair<int, int>>q;
-        q.push({ SR, 0 });
+       priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>>>q;
+        q.push({ 0, SR });
         while (!q.empty())
         {
-            pair<int, int>cur = q.top();
+            pair<ll, int>cur = q.top();
             q.pop();
             for (int i = 0; i < v[cur.first].size(); i++){
                 int b = v[cur.first][i].first;
@@ -57,7 +57,7 @@ int main(){
                 if (costs[b]>costs[cur.first] + c)
                 {
                     costs[b] = costs[cur.first] + c;
-                    q.push({ b, costs[b] });
+                    q.push({ costs[b],b });
                 }
             }
         }
