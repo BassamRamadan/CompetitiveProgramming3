@@ -1,87 +1,77 @@
-//#include<bits/stdc++.h>
-#include <iostream>
-#include <string>
-#include <map>
-#include <deque>
-#include <queue>
-#include <stack>
-#include <sstream>
-#include <iomanip>
-#include <cstdio>
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
-#include <algorithm>
-#include <vector>
-#include <set>
-#include <complex>
-#include <list>
-#include <climits>
-#include <bitset>
+#include <bits/stdc++.h>
+#include <unordered_map>
 
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
 using namespace std;
 #define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
 #define pb push_back
 #define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define clr(v,d)        memset(v, d, sizeof(v))
 #define endl '\n'
-const double EPS = 1e-12;
 typedef long long ll;
-const double PI = 3.14159265359;
+typedef unsigned long long ull;
 
-int n, k;
-int a[1000000];
-bool ok(ll x){
-	ll sum = 0,e=0;
-	for (int i = 0; i < n; i++)
-	{
-		if (sum + a[i] <= x)
-			sum += a[i];
-		else if (sum && sum<=x)
-			e++, sum = a[i];
-		else
-			return 0;
-	}
-	if (sum <= x)
-		e++;
-	else
-		return 0;
-	return e <= k;
 
-}
-ll bin(){
-	ll l = 0, r = 1e9,mid = 0,ans=0;
-	while (l<=r)
-	{
-		
-		mid = l + (r - l) / 2;
-		if (ok(mid))
-		{
-			r = mid - 1;
-			ans = mid;
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+int n, m;
+vector<int>v;
+bool ok(ll mid){
+	int sz = 0;
+	int sum = 0;
+	for (int i = 0; i < n; i++){
+		if (v[i]>mid) return 0;
+		else if (sum + v[i] == mid){
+			sum = 0;
+			sz++;
 		}
-		else
-			l = mid + 1;
+		else if (sum + v[i]<mid)
+			sum += v[i];
+		else{
+			sz++;
+			sum = v[i];
+		}
 	}
-	return ans;
+	if (sum)++sz;
+	if (sz <= m)
+		return 1;
+	return 0;
 }
-
 int main(){
-
 	Compiler_Beso
 
-
-		
-	while (cin>>n>>k)
+	while (cin >> n >> m)
 	{
-		for (int i = 0; i < n; i++)
-			cin >> a[i];
-
-		cout << bin() << endl;
-
+		v.resize(n);
+		for (int i = 0; i < n; i++){
+			cin >> v[i];
+		}
+		ll l = 1, r = 2e9, ans = 2e9;
+		while (l <= r)
+		{
+			ll mid = (l + r) / 2;
+			int res = ok(mid);
+			if (res){
+				ans = min(ans, mid);
+				r = mid - 1;
+			}
+			else
+				l = mid + 1;
+		}
+		cout << ans << endl;
 	}
 
-		
 
 	return 0;
 }
