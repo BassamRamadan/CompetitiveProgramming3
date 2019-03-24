@@ -1,97 +1,71 @@
-//#include<bits/stdc++.h>
-#include <iostream>
-#include <string>
-#include <map>
-#include <deque>
-#include <queue>
-#include <stack>
-#include <sstream>
-#include <iomanip>
-#include <cstdio>
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
-#include <algorithm>
-#include <vector>
-#include <set>
-#include <complex>
-#include <list>
-#include <climits>
-#include <bitset>
+#include <bits/stdc++.h>
+#include <unordered_map>
 
+/*
+**
+Success doesn't come to you ,
+You Go To IT .
+**
+*/
 using namespace std;
 #define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
 #define pb push_back
 #define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define clr(v,d)        memset(v, d, sizeof(v))
 #define endl '\n'
-const double EPS = 1e-12;
 typedef long long ll;
-const double PI = 3.14159265359;
+typedef unsigned long long ull;
 
-vector<ll>v;
-int n, m, k;
-void generatt(){
-	v[0] = 1;
-	v[1] = 2;
-	v[2] = 3;
-	int e = 3;
-	while (e<n)
-	{
-		v[e] = (v[e - 1] + v[e - 2]+ v[e - 3] )%m+1;
-		e++;
-	}
-}
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
 
 int main(){
-
 	Compiler_Beso
 
-
-
-		int t, d = 1;
+		int t, e = 0;
 	cin >> t;
-	while (t--){
-		
-		
+	while (t--)
+	{
+		int n, m, k;
 		cin >> n >> m >> k;
-		vector<ll>vv(n);
-		v = vv;
-		generatt();
+		int a[3] = { 1, 2, 3 };
+		vector<int>v;
+		cout << "Case "<<++e<<": ";
+		v.push_back(1);
+		v.push_back(2);
+		v.push_back(3);
 
-		ll l = 0, r = 0, c = 0;
-		ll mnR = LLONG_MAX, mnL = 0;
-		map<ll, int>mp;
-		while (l<n)
-		{
-			while (r < n && c<k)
-			{
-				if (mp[v[r]] == 0 && v[r] <= k)
-					++c;
-				mp[v[r]]++;
+		for (int i = 3; i < n; i++){
+			int x = (v[i-1] + v[i-2] + v[i-3]) % m + 1;
+			v.push_back(x);
+		}
+		int l = 0, r = 0, mx = 1e9;
+		map<int,int>st;
+		while (l < n){
+			while (r < n && st.size()<k){
+				if (v[r] <= k)
+					st[v[r]]++;
 				r++;
 			}
-		//	cout << l << " " << r << " " << c << endl;
-			if (c == k)
-			{
-				if (r - l< mnR - mnL && r-l>=0)
-				{
-					mnR = r, mnL = l;
-				}
-			}
-			if (mp[v[l]] == 1 && v[l] <= k)
-				--c;
-			mp[v[l]]--;
+			if (st.size() == k)
+				mx = min(mx, r - l);
+			if (v[l] <= k)
+				st[v[l]]--;
+			if (st[v[l]] == 0)
+				st.erase(v[l]);
 			l++;
 		}
-		cout << "Case " << d++ << ": ";
-		if (mnR - mnL== LLONG_MAX)
-			cout << "sequence nai" << endl;
-		else
-			cout << mnR - mnL << endl;
+		if (mx != 1e9)cout << mx<<endl;
+		else cout << "sequence nai" << endl;
+		
 	}
-		
 
-		
 	return 0;
 }
