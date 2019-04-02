@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+#include <unordered_map>
+
+/* 
+											   
+                      \/                    __/ \  .::::.-'-(/-/)
+                             _/:  .::::.-' .-'\/\_`*******          __ (_))
+                \/          /:  .::::./   -._-.  d\|               (_))_(__))
+                             /: (""""/    '.  (__/||           (_))__(_))--(__))
+                              \::).-'  -._  \/ \\/\|
+                      __ _ .-'`)/  '-'. . '. |  (i_O
+                  .-'      \       -'      '\|
+             _ _./      .-'|       '.  (    \\                         % % %
+          .-'   :      '_  \         '-'\  /|/      @ @ @             % % % %
+         /      )\_      '- )_________.-|_/^\      @ @ @@@           % %\/% %
+         (   .-'   )-._-:  /        \(/\'-._ `.     @|@@@@            ..|........
+          (   )  _//_/|:  /          `\()   `\_\     |/_@@             )'-._.-._.-
+           ( )   \()^_/)_/             )/      \\    /                /   /
+            )  _.-\\.\(_)__._.-'-.-'-.//_.-'-.-.)\-'/._              /
+        .-.-.-'   _o\ \\\     '::'   (o_ '-.-' |__\'-.-;~ ~ ~ ~ ~ ~~/   /\
+                  \ /  \\\__          )_\    .:::::::.-'\          '- - -|
+             :::''':::::^)__\:::::::::::::::::'''''''-.  \                '- - -
+            :::::::  '''''''''''   ''''''''''''':::. -'\  \     C. SWANSIGER
+        _____':::::_____________________________________\__\______________________
+        -->
+*/
+using namespace std;
+#define all(v)          ((v).begin()), ((v).end())
+#define finish(x) return cout << x << endl, 0;
+#define pb push_back
+#define Compiler_Beso ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define clr(v,d)        memset(v, d, sizeof(v))
+#define endl '\n'
+typedef long long ll;
+typedef unsigned long long ull;
+
+
+ll gcd(ll a, ll b) { return !b ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+
+
+enum dir       { DOWN = 0, UP, RIGHT, LEFT, DOWN_RIGHT, DOWN_LEFT, UP_RIGHT, UP_LEFT };
+int  dir_r[] = { 1, -1, 0, 0, 1, 1, -1, -1 };
+int  dir_c[] = { 0, 0, 1, -1, 1, -1, 1, -1 };
+
+int main(){
+	Compiler_Beso
+
+
+		int a, b, n;
+	cin >> a >> b >> n;
+	vector<int>v1, v2;
+	for (int i = 1; i <= sqrt(a); i++){
+		if (a%i == 0){
+			v1.push_back(i);
+			if (a / i != i)
+				v1.push_back(a / i);
+		}
+	}
+	unordered_map<int, int>mp;
+	for (int i = 1; i <= sqrt(b); i++){
+		if (b%i == 0){
+			mp[(i)] = 1;
+			
+			mp[(b/i)] = 1;
+		}
+	}
+	sort(all(v1));
+	while (n--)
+	{
+		int l, r;
+		cin >> l >> r;
+		int ans = -1;
+		for (int i = 0; i < v1.size(); i++){
+			if (v1[i] >= l && v1[i] <= r && mp[v1[i]]){
+				ans = v1[i];
+			}
+		}
+		cout << ans << endl;
+	}
+
+
+
+		
+	return 0;
+}
